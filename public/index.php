@@ -9,9 +9,9 @@ define('ROOT', dirname(dirname(__FILE__).DS)); // pour se simplifier la vie
 
 require ROOT.DS . "vendor/autoload.php";
 
-$request = new App\Request(isset($_GET['url']) ? htmlentities($_GET['url']) : '/');
+$router = Core\Router::getInstance(isset($_GET['url']) ? htmlentities($_GET['url']) : '/');
 
 require_once (ROOT.DS.'route.php');
 
-\App\Response::set(call_user_func($request->run()), 99);
+\App\Response::set(call_user_func($router->run()), 99);
 \App\Response::send();

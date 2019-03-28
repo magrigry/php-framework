@@ -1,9 +1,9 @@
 <?php
 
-use App\Request;
+use App\Router;
 use App\Config;
 
-echo Request::$data['get']['test'];
+echo Router::$data['get']['test'];
 echo Config::url('/test');
 
 echo 't';
