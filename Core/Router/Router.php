@@ -1,7 +1,9 @@
 <?php
 
-namespace Core;
+namespace Core\Router;
 
+
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class Router
@@ -18,6 +20,12 @@ class Router
      * @var
      */
     private $call;
+
+    /**
+     * @var
+     */
+    private $parameters = array();
+
     /**
      * @var
      */
@@ -31,24 +39,30 @@ class Router
      */
     private static $_instance;
 
+    /**
+     * @var
+     */
+    private static $_error404;
+
 
     /**
      * Router constructor.
-     * @param $url
+     * @param $request
      */
-    public function __construct($url)
+    public function __construct(ServerRequestInterface $request)
     {
-        $this->url = $url;
+        $this->url = $request->getUri()->getFragment();
+        echo $this->url;
     }
 
     /**
-     * @param $url
+     * @param $request
      * @return Router
      */
-    public static function getInstance($url)
+    public static function getInstance(ServerRequestInterface $request)
     {
         if (is_null(self::$_instance)) {
-            self::$_instance = new Router($url);
+            self::$_instance = new Router($request);
         }
         return self::$_instance;
     }
@@ -58,7 +72,7 @@ class Router
      * @param $call Callable or string "controller@method"
      * @return $this
      */
-    public function registerRoute($path, $call)
+    public function new($path, $call)
     {
 
         $path = $path != '/' ? explode('/', rtrim(ltrim($path, '/'), '/')) : '/';
@@ -83,15 +97,20 @@ class Router
 
         if ($returnCall) {
 
+            if (isset($get)) {
+                $this->parameters = $get;
+            }
+
             if (is_string($call)) {
                 $call2 = explode('@', $call);
                 self::$_classname = $call2['0'];
                 self::$_methodName = $call2['1'];
                 $this->call = function () {
-                    $classname = \Core\Router::$_classname;
-                    $methodname = \Core\Router::$_methodName;
+                    $classname = self::
+                    $_classname;
+                    $methodName = self::$_methodName;
                     $class = new $classname();
-                    return $class->$methodname();
+                    return $class->$methodName();
                 };
             } else {
                 $this->call = $call;
@@ -102,19 +121,24 @@ class Router
 
     }
 
+    /**
+     * @param $callable
+     */
+    public function error404($callable){
+        self::$_error404 = $callable;
+    }
+
 
     /**
-     * @return \Closure
+     * @return \Closure|Route
      */
-    public function run()
+    public function match()
     {
         if (isset($this->call) && !empty($this->call)) {
-            return $this->call;
+            return new Route($this->call, $this->parameters);
         }
 
-        return function () {
-            new AppError('404', 'Page introuvable');
-        };
+        return self::$_error404;
 
     }
 

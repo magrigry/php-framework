@@ -1,13 +1,16 @@
 <?php
 
-$router->registerRoute('/home', '\App\Controller\HomeController@index');
+$router->error404(function(){
+   return '404 Page not found';
+});
 
-$router->registerRoute('/', function(){
+$router->new('/home', '\App\Controller\HomeController@index');
+
+$router->new('/', function(){
     $controller = new \App\Controller\HomeController();
     return $controller->index();
 });
 
-$router->registerRoute('/test/{{test}}', function(){
-    $view = new \App\View\Respond();
-    return $view->Display('home');
+$router->new('/test/{{test}}', function(){
+    return 'test2';
 });
