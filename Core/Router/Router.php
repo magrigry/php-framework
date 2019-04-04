@@ -49,17 +49,16 @@ class Router
      * Router constructor.
      * @param $request
      */
-    public function __construct(ServerRequestInterface $request)
+    public function __construct($request)
     {
-        $this->url = $request->getUri()->getFragment();
-        echo $this->url;
+        $this->url = $request;
     }
 
     /**
      * @param $request
      * @return Router
      */
-    public static function getInstance(ServerRequestInterface $request)
+    public static function getInstance($request)
     {
         if (is_null(self::$_instance)) {
             self::$_instance = new Router($request);
@@ -72,7 +71,7 @@ class Router
      * @param $call Callable or string "controller@method"
      * @return $this
      */
-    public function new($path, $call)
+    public function newRoute($path, $call)
     {
 
         $path = $path != '/' ? explode('/', rtrim(ltrim($path, '/'), '/')) : '/';
@@ -138,7 +137,7 @@ class Router
             return new Route($this->call, $this->parameters);
         }
 
-        return self::$_error404;
+        return new Route(function(){ return '404'; }, $this->parameters);
 
     }
 

@@ -1,7 +1,7 @@
 {
     "name": "quentin/framework",
     "require": {
-        "guzzlehttp/psr7": "^1.5"
+
     },
 	"autoload": {
 		"psr-4": {
