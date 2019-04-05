@@ -15,5 +15,4 @@ require_once (ROOT.DS.'route.php');
 $route = $router->match();
 
 
-\App\Response::set(call_user_func($route->getCallable()), 99);
-\App\Response::send();
+echo call_user_func($route->getCallable());

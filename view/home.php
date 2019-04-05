@@ -1,10 +1,6 @@
 <?php
 
-use App\Router;
-use App\Config;
+$this->title = "Titre de la page";
 
-echo Router::$data['get']['test'];
-echo Config::url('/test');
-
-echo 't';
+echo $this->data['test'];
 
