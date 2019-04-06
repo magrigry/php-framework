@@ -2,18 +2,24 @@
 
 namespace App\Controller;
 
-use \Core\View\Html;
+use Core\Controller;
 
-class HomeController{
+class HomeController extends Controller
+{
 
-    public function index(){
+    public function index()
+    {
 
-        $test = 'test';
-        $view = new Html('home');
+        $test = "test";
+        $page = $this->Request->get('test');
 
-        $view->errors[] = "Vous n'avez pas accès à cette page.";
+        $this->Html->setPageName('home');
+        $this->Html->setTitle('Home page');
 
-        return $view->send('home.php', compact($test));
+        $this->Html->addError("Page inconnue");
+        $this->Html->addError("Vous n'avez pas la permission");
+
+        return $this->Html->render('home.php', compact("test", "page"));
 
     }
 

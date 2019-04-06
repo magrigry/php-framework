@@ -1,16 +1,37 @@
 <?php
 
-namespace App;
+namespace Core;
 
 
-class Config {
+/**
+ * Class Config
+ * @package Core
+ */
+class Config
+{
 
+    /**
+     * @var string
+     */
     private static $url_protocol = 'http://';
+    /**
+     * @var string
+     */
     private static $url_domain = 'localhost';
+    /**
+     * @var string
+     */
     private static $url_path = '/framework/public';
 
+    /**
+     * @var bool
+     */
     private static $php_errors = true;
 
+    /**
+     * Config constructor.
+     * @param $config
+     */
     public function __construct($config)
     {
 
@@ -24,16 +45,25 @@ class Config {
 
     }
 
-    private function phpErrors(){
-        if(self::$php_errors == true){
+    /**
+     *
+     */
+    private function phpErrors()
+    {
+        if (self::$php_errors == true) {
             ini_set('display_errors', 1);
             ini_set('display_startup_errors', 1);
             error_reporting(E_ALL);
         }
     }
 
-    public static function url($path){
-        return self::$url_protocol.self::$url_domain.self::$url_path.$path;
+    /**
+     * @param $path
+     * @return string
+     */
+    public static function url($path)
+    {
+        return self::$url_protocol . self::$url_domain . self::$url_path . $path;
     }
 
 

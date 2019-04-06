@@ -56,7 +56,7 @@ class Router
      * @param $request
      * @return Router
      */
-    public static function getInstance($request) : router
+    public static function getInstance($request): router
     {
         if (is_null(self::$_instance)) {
             self::$_instance = new Router($request);
@@ -69,7 +69,7 @@ class Router
      * @param $call Callable or string "controller@method"
      * @return $this
      */
-    public function newRoute($path, $call) : router
+    public function newRoute($path, $call): router
     {
 
         $path = $path != '/' ? explode('/', rtrim(ltrim($path, '/'), '/')) : '/';
@@ -94,8 +94,21 @@ class Router
 
         if ($returnCall) {
 
+            foreach ($_GET as $key => $value) {
+                $get[$key] = htmlentities($value);
+            }
+
             if (isset($get)) {
                 $this->parameters = $get;
+                \Core\Request::getInstance()->setGet($get);
+            }
+
+            foreach ($_POST as $key => $value) {
+                $post[$key] = htmlentities($value);
+            }
+
+            if (isset($post)) {
+                \Core\Request::getInstance()->setPost($post);
             }
 
             if (is_string($call)) {
@@ -121,7 +134,8 @@ class Router
     /**
      * @param $callable
      */
-    public function error404($callable){
+    public function error404($callable)
+    {
         $this->error404 = $callable;
     }
 
@@ -129,17 +143,19 @@ class Router
     /**
      * @return Route
      */
-    public function match() : Route
+    public function match(): Route
     {
         if (isset($this->call) && !empty($this->call)) {
             return new Route($this->call, $this->parameters);
         }
 
-        if(is_callable($this->error404)){
+        if (is_callable($this->error404)) {
             return new Route($this->error404, $this->parameters);
         }
 
-        return new Route(function(){ return '404 Error page not found'; }, $this->parameters);
+        return new Route(function () {
+            return '404 Error page not found';
+        }, $this->parameters);
 
     }
 
