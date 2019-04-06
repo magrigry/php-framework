@@ -36,14 +36,16 @@ class Request
         if(isset($this->get[$var])){
             return $this->get[$var];
         }
-
-        throw new \Exception("index '$var' not found ");
-
+        $debug = debug_backtrace();
+        return "<p>Framework warning: Undefined index $var in GET " . $debug[0]['file'] . " at line " . $debug[0]['line'] . '</p>';
     }
 
     public function post($var)
     {
-        return (isset($this->post[$var])) ? $this->post[$var] : null;
-    }
+        if(isset($this->post[$var])){
+            return $this->post[$var];
+        }
+        $debug = debug_backtrace();
+        return "<p>Framework warning: Undefined index $var in POST " . $debug[0]['file'] . " at line " . $debug[0]['line'] . '</p>';    }
 
 }
