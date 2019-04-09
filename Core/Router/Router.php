@@ -10,9 +10,15 @@ class Router
 {
 
     /**
+     * @var array
+     */
+    private $routes = Array();
+
+    /**
      * @var
      */
     private $url;
+
     /**
      * @var
      */
@@ -27,10 +33,12 @@ class Router
      * @var
      */
     private static $_classname;
+
     /**
      * @var
      */
     private static $_methodName;
+
     /**
      * @var
      */
@@ -53,24 +61,54 @@ class Router
 
 
     /**
-     * @param $request
+     * @param null $request
      * @return Router
      */
-    public static function getInstance($request): router
+    public static function getInstance($request = null): router
     {
         if (is_null(self::$_instance)) {
             self::$_instance = new Router($request);
+        }
+
+        if(is_null(self::$_instance) && is_null($request)){
+            trigger_error("<p>Framework error: Parameters $request is null in $routename in Router::getInstance and it's the first instance " . $debug[0]['file'] . " at line " . $debug[0]['line'] . '</p>');
         }
         return self::$_instance;
     }
 
     /**
+     * @param $routename
+     * @param null $datas
+     * @return string
+     */
+    public function showPath($routename, $datas = null){
+
+        if(!isset($this->routes[$routename])){
+            $debug = debug_backtrace();
+            trigger_error("<p>Framework error: Undefined index $routename in Router->showPath " . $debug[0]['file'] . " at line " . $debug[0]['line'] . '</p>');
+        }
+
+        $path = $this->routes[$routename];
+
+        if(!is_null($datas) && is_array($datas)){
+            foreach($datas as $key => $data){
+                $path = str_replace('{{'.$key.'}}', $data, $path);
+            }
+        }
+
+        return \Core\Config::url($path);
+    }
+
+    /**
      * @param $path
      * @param $call Callable or string "controller@method"
+     * @param $routename
      * @return $this
      */
-    public function newRoute($path, $call): router
+    public function newRoute($path, $call, $routename): router
     {
+
+        $this->routes[$routename] = $path;
 
         $path = $path != '/' ? explode('/', rtrim(ltrim($path, '/'), '/')) : '/';
         $url = $this->url != '' ? explode('/', rtrim(ltrim($this->url, '/'), '/')) : '/';

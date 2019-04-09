@@ -1,4 +1,1 @@
-<?php
-
-echo $test;
-echo $page;
+<?= $controller->Router->showPath('test', ['test' => 'ohoho']) ?>
