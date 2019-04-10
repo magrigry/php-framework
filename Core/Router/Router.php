@@ -153,12 +153,11 @@ class Router
                 $call2 = explode('@', $call);
                 self::$_classname = $call2['0'];
                 self::$_methodName = $call2['1'];
-                $this->call = function () {
-                    $classname = self::
-                    $_classname;
+                $this->call = function ($container) {
+                    $classname = self::$_classname;
                     $methodName = self::$_methodName;
                     $class = new $classname();
-                    return $class->$methodName();
+                    return $container->call([$class, $methodName]);
                 };
             } else {
                 $this->call = $call;

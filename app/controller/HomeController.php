@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Core\Controller;
+use Core\Request;
 
 /**
  * Class HomeController
@@ -14,9 +15,9 @@ class HomeController extends Controller
     /**
      * @return false|string
      */
-    public function index()
+    public function index(Request $request)
     {
-
+        
         $this->Html->setPageName('home');
         $this->Html->setTitle('Home page');
 
