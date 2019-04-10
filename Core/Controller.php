@@ -49,7 +49,7 @@ class Controller
     {
         $this->Html = Html::getInstance();
         $this->Request = Request::getInstance();
-        $this->Router = Router::getInstance();
+        $this->Router = Router::getInstance(isset($_GET['url']) ? htmlentities($_GET['url']) : '/');
     }
 
 }

@@ -64,7 +64,7 @@ class Router
      * @param null $request
      * @return Router
      */
-    public static function getInstance($request = null): router
+    public static function getInstance($request): router
     {
         if (is_null(self::$_instance)) {
             self::$_instance = new Router($request);
