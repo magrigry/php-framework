@@ -31,8 +31,7 @@ class HomeController extends Controller
         $html->addError("Page inconnue");
         $html->addError("Vous n'avez pas la permission");
 
-        return 'test';
-        return $html->render('home.php', compact('request', 'router'));
+        return $html->render('home.php', compact('request', 'request', 'router'));
 
     }
 
