@@ -20,7 +20,9 @@ try{
     echo $e;
 }
 
-
+/************************************************/
+/*                    ROUTER                    */
+/************************************************/
 $router = $container->get(\Core\Router\Router::class);
 require_once (ROOT.DS.'route.php');
 $route = $router->match();

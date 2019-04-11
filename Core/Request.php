@@ -10,6 +10,11 @@ class Request
 {
 
     /**
+     * @var string
+     */
+    private $url;
+
+    /**
      * @var array
      */
     private $get = array();
@@ -18,11 +23,6 @@ class Request
      * @var array
      */
     private $post = array();
-
-    /**
-     * @var
-     */
-    private static $_instance;
 
     /**
      * @param $get
@@ -40,15 +40,22 @@ class Request
         $this->post = $post;
     }
 
+
     /**
-     * @return Request
+     * Request constructor.
+     * @param string $url
      */
-    public static function getInstance(): Request
+    public function __construct($url)
     {
-        if (is_null(self::$_instance)) {
-            self::$_instance = new Request();
-        }
-        return self::$_instance;
+        $this->url = $url;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getUrl(){
+        return $this->url;
     }
 
     /**

@@ -42,38 +42,22 @@ class Router
     /**
      * @var
      */
-    private static $_instance;
+    private $error404;
 
     /**
      * @var
      */
-    private $error404;
+    private $request;
 
 
     /**
      * Router constructor.
      * @param $request
      */
-    public function __construct($request)
+    public function __construct(\Core\Request $request)
     {
-        $this->url = $request;
-    }
-
-
-    /**
-     * @param null $request
-     * @return Router
-     */
-    public static function getInstance($request): router
-    {
-        if (is_null(self::$_instance)) {
-            self::$_instance = new Router($request);
-        }
-
-        if(is_null(self::$_instance) && is_null($request)){
-            trigger_error("<p>Framework error: Parameters $request is null in $routename in Router::getInstance and it's the first instance " . $debug[0]['file'] . " at line " . $debug[0]['line'] . '</p>');
-        }
-        return self::$_instance;
+        $this->request = $request;
+        $this->url = $request->getUrl();
     }
 
     /**
@@ -138,7 +122,7 @@ class Router
 
             if (isset($get)) {
                 $this->parameters = $get;
-                \Core\Request::getInstance()->setGet($get);
+                $this->request->setGet($get);
             }
 
             foreach ($_POST as $key => $value) {
@@ -146,7 +130,7 @@ class Router
             }
 
             if (isset($post)) {
-                \Core\Request::getInstance()->setPost($post);
+                $this->request->setPost($post);
             }
 
             if (is_string($call)) {
