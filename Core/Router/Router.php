@@ -49,14 +49,20 @@ class Router
      */
     private $request;
 
+    /**
+     * @var
+     */
+    private $app;
+
 
     /**
      * Router constructor.
      * @param $request
      */
-    public function __construct(\Core\Request $request)
+    public function __construct(\Core\Request $request, \Core\App $app)
     {
         $this->request = $request;
+        $this->app = $app;
         $this->url = $request->getUrl();
     }
 
@@ -80,7 +86,7 @@ class Router
             }
         }
 
-        return \Core\Config::url($path);
+        return $this->app->url($path);
     }
 
     /**

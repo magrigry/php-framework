@@ -22,7 +22,7 @@ class HomeController extends Controller
      * @param Router $router
      * @return false|string
      */
-    public function index(Html $html, Request $request, Router $router)
+    public function index(Html $html, Request $request, Router $router, \Core\App $app)
     {
 
         $html->setPageName('home');

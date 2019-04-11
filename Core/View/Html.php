@@ -29,20 +29,14 @@ class Html
      */
     private $pageName;
 
-    /**
+     /**
      * @var
      */
-    private static $_instance;
+    private $app;   
 
-    /**
-     * @return Html
-     */
-    public static function getInstance(): Html
+    public function __construct(\Core\App $app)
     {
-        if (is_null(self::$_instance)) {
-            self::$_instance = new Html();
-        }
-        return self::$_instance;
+        $this->app = $app;
     }
 
     /**

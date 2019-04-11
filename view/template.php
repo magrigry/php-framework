@@ -1,6 +1,6 @@
 <?php
 
-use Core\Config;
+use Core\App;
 
 ?>
 <!DOCTYPE html>
@@ -12,9 +12,9 @@ use Core\Config;
 
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
-    <link href="<?= Config::url('/css/bootstrap.css') ?>" rel="stylesheet">
-    <link href="<?= Config::url('/css/mdb.css') ?>" rel="stylesheet">
-    <link href="<?= Config::url('/css/style.css') ?>" rel="stylesheet">
+    <link href="<?= $this->app->url('/css/bootstrap.css') ?>" rel="stylesheet">
+    <link href="<?= $this->app->url('/css/mdb.css') ?>" rel="stylesheet">
+    <link href="<?= $this->app->url('/css/style.css') ?>" rel="stylesheet">
 </head>
 
 <body>
@@ -34,10 +34,10 @@ use Core\Config;
 <?= $content ?>
 
 
-<script type="text/javascript" src="<?= Config::url('/js/jquery-3.3.1.min.js') ?>"></script>
-<script type="text/javascript" src="<?= Config::url('/js/popper.min.js') ?>"></script>
-<script type="text/javascript" src="<?= Config::url('/js/bootstrap.js') ?>"></script>
-<script type="text/javascript" src="<?= Config::url('/js/mdb.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->app->url('/js/jquery-3.3.1.min.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->app->url('/js/popper.min.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->app->url('/js/bootstrap.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->app->url('/js/mdb.js') ?>"></script>
 
 </body>
 
