@@ -19,6 +19,12 @@ $route = $router->match();
 
 $containerBuilder = new \DI\ContainerBuilder();
 $containerBuilder->addDefinitions(ROOT . DS . 'DI.php');
-$container = $containerBuilder->build();
+
+try{
+    $container = $containerBuilder->build();
+}catch (Exception $e){
+    echo $e;
+}
 
 echo call_user_func_array($route->getCallable(), array($container));
+

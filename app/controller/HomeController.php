@@ -5,6 +5,9 @@ namespace App\Controller;
 use Core\Controller;
 use Core\Request;
 
+use Core\Router\Router;
+use Core\View\Html;
+
 /**
  * Class HomeController
  * @package App\Controller
@@ -12,20 +15,24 @@ use Core\Request;
 class HomeController extends Controller
 {
 
+
     /**
+     * @param Html $html
+     * @param Request $request
+     * @param Router $router
      * @return false|string
      */
-    public function index(Request $request)
+    public function index(Html $html, Request $request, Router $router)
     {
-        
-        $this->Html->setPageName('home');
-        $this->Html->setTitle('Home page');
 
-        $this->Html->addError("Page inconnue");
-        $this->Html->addError("Vous n'avez pas la permission");
+        $html->setPageName('home');
+        $html->setTitle('Home page');
 
-        $controller = $this;
-        return $this->Html->render('home.php', ['controller' => $this]);
+        $html->addError("Page inconnue");
+        $html->addError("Vous n'avez pas la permission");
+
+        return 'test';
+        return $html->render('home.php', compact('request', 'router'));
 
     }
 
