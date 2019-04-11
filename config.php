@@ -6,7 +6,7 @@ return [
         'url_protocol' => 'http://',
         'url_domain' => 'localhost',
         'url_path' => '/framework/public',
-        'php_errors' => true
+        'php_errors' => true,
     ],
 
     \Core\Request::class => \DI\Factory(function($url){return new \Core\Request($url); })

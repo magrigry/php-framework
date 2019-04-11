@@ -35,11 +35,9 @@ class App
     public function __construct($config)
     {
 
-        isset($config['url_protocol']) AND $this->url_protocol = $config['url_protocol'];
-        isset($config['url_domain']) AND $this->url_domain = $config['url_domain'];
-        isset($config['url_path']) AND $this->url_path = $config['url_path'];
-
-        isset($config['php_errors']) AND $this->php_errors = $config['php_errors'];
+        foreach($config as $key => $value){
+            $this->$key = $value;
+        }
 
         $this->phpErrors();
 

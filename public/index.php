@@ -13,7 +13,7 @@ require ROOT.DS . "vendor/autoload.php";
 /*                       DI                     */
 /************************************************/
 $containerBuilder = new \DI\ContainerBuilder();
-$containerBuilder->addDefinitions(ROOT . DS . 'DI.php');
+$containerBuilder->addDefinitions(ROOT . DS . 'config.php');
 try{
     $container = $containerBuilder->build();
 }catch (Exception $e){
