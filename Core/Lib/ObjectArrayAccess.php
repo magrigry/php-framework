@@ -1,5 +1,5 @@
 <?php
-namespace Core;
+namespace Core\Lib;
 class ObjectArrayAccess implements \ArrayAccess {
 
     public static $data = array();

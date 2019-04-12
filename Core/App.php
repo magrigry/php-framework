@@ -29,6 +29,11 @@ class App
     private $php_errors = true;
 
     /**
+     * @var string
+     */
+    private $sel = 'Fmllkfpjoijhfdsqpjjfdq';    
+
+    /**
      * App constructor.
      * @param $config
      */

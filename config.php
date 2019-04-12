@@ -7,6 +7,7 @@ return [
         'url_domain' => 'localhost',
         'url_path' => '/framework/public',
         'php_errors' => true,
+        'sel' => 'lkpomfd!skogfidsjpo' //Change this value for each app
     ],
 
     \Core\Request::class => \DI\Factory(function($url){return new \Core\Request($url); })

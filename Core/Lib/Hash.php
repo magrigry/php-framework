@@ -1,6 +1,5 @@
 <?php
-
-namespace Lib;
+namespace Core\Lib;
 
 /**
  * Class Hash
@@ -12,20 +11,26 @@ class Hash{
      * @var
      */
     private $stringToHash;
+
     /**
      * @var string
      */
     private $selString;
 
     /**
+     * @var \Core\App
+     */
+    private $app;
+
+    /**
      * Hash constructor.
      * @param $stringToHash
      * @param string $selString
      */
-    public function __construct($stringToHash, $selString = 'Mpgfjdsqijoip')
+    public function __construct(\Core\App $app)
     {
-        $this->stringToHash = $stringToHash;
-        $this->selString = md5($selString);
+        $this->app = $app;
+
     }
 
     /**
@@ -51,10 +56,12 @@ class Hash{
     }
 
     /**
+     * @param $stringToHash
      * @return string
      */
-    private function selStep2() : string
+    private function selStep2(string $stringToHash) : string
     {
+        $this->stringToHash = $stringToHash;
         $chars = str_split($this->stringToHash);
 
         $finalStr = '';
@@ -72,32 +79,33 @@ class Hash{
         return $finalStr;
     }
 
-
     /**
      * @param $hash
      * @param $str
      * @return bool
      */
-    public static function verifyHash($hash, $str) : bool
+    public function verifyHash(string $hash, string $str) : bool
     {
-        $str = new Hash($str);
-        return password_verify($str->getStringSalted(), $hash);
+        $obj = new Hash($this->app);
+        return password_verify($obj->getStringSalted($str), $hash);
     }
 
     /**
+     * @param string $stringToHash
      * @return string
      */
-    public function getHash() : string
+    public function getHash(string $stringToHash) : string
     {
-        return password_hash($this->selStep2(), PASSWORD_DEFAULT);
+        return password_hash($this->selStep2($stringToHash), PASSWORD_DEFAULT);
     }
 
     /**
+     * @param string $stringToHash
      * @return string
      */
-    public function getStringSalted() : string
+    public function getStringSalted(string $stringToSel) : string
     {
-        return $this->selStep2();
+        return $this->selStep2($stringToSel);
     }
 
 }
