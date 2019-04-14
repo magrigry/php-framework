@@ -1,8 +1,3 @@
-<?php
-
-use Core\App;
-
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -20,7 +15,7 @@ use Core\App;
 <body>
 
 <?php
-    $this->ifCurrentPage('home', 'ok');
+    $this->ifCurrentPage('home', '<h1>Welcome on Home Page</h1>');
 ?>
 
 <div class="container">
