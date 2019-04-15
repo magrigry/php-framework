@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: fornas0q
- * Date: 15/04/2019
- * Time: 16:16
- */
 
 namespace App\middleware;
 
