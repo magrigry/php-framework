@@ -2,15 +2,14 @@
 
 namespace App\Controller;
 
-use Core\Request;
-use Core\Router\Router;
+use Core\Router\Route;
 use Core\View\Html;
 use \Core\App;
 
 class TestController{
 
 
-    public function index(Html $html, Request $request, Router $router, App $app){
+    public function index(Html $html, Route $route, App $app){
 
         /* CREER un HASH */
         $hash = new \Core\Lib\Hash($app);
@@ -22,7 +21,7 @@ class TestController{
         $html->setTitle('Test page');
         $html->addError("Page inconnue");
         $html->addError("Vous n'avez pas la permission");
-        return $html->render('test.php', compact('request', 'request', 'router'));
+        return $html->render('test.php', compact('route'));
 
     }
 

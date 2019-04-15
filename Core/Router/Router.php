@@ -3,6 +3,7 @@
 namespace Core\Router;
 
 use GuzzleHttp\Psr7\ServerRequest;
+use \Core\App;
 
 /**
  * Class Router
@@ -15,6 +16,11 @@ class Router
      * @var array
      */
     private $routes = Array();
+
+    /**
+     * @var Route
+     */
+    private $Route;
 
     /**
      * @var
@@ -59,49 +65,28 @@ class Router
 
     /**
      * Router constructor.
-     * @param $request
-     * @param $app
+     * @param ServerRequest $request
+     * @param App $app
+     * @param Route $Route
      */
-    public function __construct(ServerRequest $request, \Core\App $app)
+    public function __construct(ServerRequest $request, App $app, Route $Route)
     {
         $this->request = $request;
         $this->app = $app;
         $this->url = $request->getUri()->getPath();
-    }
-
-    /**
-     * @param $routename
-     * @param null $datas
-     * @return string
-     */
-    public function showPath($routename, $datas = null){
-
-        if(!isset($this->routes[$routename])){
-            $debug = debug_backtrace();
-            trigger_error("<p>Framework error: Undefined index $routename in Router->showPath " . $debug[0]['file'] . " at line " . $debug[0]['line'] . '</p>');
-        }
-
-        $path = $this->routes[$routename];
-
-        if(!is_null($datas) && is_array($datas)){
-            foreach($datas as $key => $data){
-                $path = str_replace('{{'.$key.'}}', $data, $path);
-            }
-        }
-
-        return $this->app->url($path);
+        $this->Route = $Route;
     }
 
     /**
      * @param $path
      * @param $call Callable or string "controller@method"
-     * @param $routename
+     * @param $routeName
+     * @param middleWare
      * @return $this
      */
-    public function newRoute($path, $call, $routename): router
+    public function newRoute($path, $call, $routeName, $middleWares = null): router
     {
-
-        $this->routes[$routename] = $path;
+        $this->routes[$routeName] = $path;
 
         $path = $path != '/' ? explode('/', rtrim(ltrim($path, '/'), '/')) : '/';
         $url = $this->url != '' ? explode('/', rtrim(ltrim($this->url, '/'), '/')) : '/';
@@ -125,6 +110,11 @@ class Router
 
         if ($returnCall) {
 
+            if(is_array($middleWares)){
+                foreach ($middleWares as $middleWare){
+                    $this->Route->addMiddleWare($middleWare);
+                }
+            }
 
             if (isset($get)) {
                 $this->parameters = $get;
@@ -134,11 +124,11 @@ class Router
                 $call2 = explode('@', $call);
                 self::$_classname = $call2['0'];
                 self::$_methodName = $call2['1'];
-                $this->call = function ($container) {
+                $this->call = function () {
                     $classname = self::$_classname;
                     $methodName = self::$_methodName;
                     $class = new $classname();
-                    return $container->call([$class, $methodName]);
+                    return Array($class, $methodName);
                 };
             } else {
                 $this->call = $call;
@@ -164,16 +154,21 @@ class Router
     public function match(): Route
     {
         if (isset($this->call) && !empty($this->call)) {
-            return new Route($this->call, $this->parameters);
+            $this->Route->setRoutes($this->routes);
+            $this->Route->setParams($this->parameters);
+            $this->Route->setCallable($this->call);
+            return $this->Route;
         }
 
         if (is_callable($this->error404)) {
-            return new Route($this->error404, $this->parameters);
+            $this->Route->setRoutes($this->routes);
+            $this->Route->setCallable($this->error404);
+            return $this->Route;
         }
-
-        return new Route(function () {
-            return '404 Error page not found';
-        }, $this->parameters);
+        $this->Route->setCallable(
+            function(){return '404';}
+            );
+        return $this->Route;
 
     }
 

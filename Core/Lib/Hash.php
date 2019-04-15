@@ -24,8 +24,7 @@ class Hash{
 
     /**
      * Hash constructor.
-     * @param $stringToHash
-     * @param string $selString
+     * @param $app
      */
     public function __construct(\Core\App $app)
     {
@@ -59,7 +58,7 @@ class Hash{
      * @param $stringToHash
      * @return string
      */
-    private function selStep2(string $stringToHash) : string
+    private function selStep2($stringToHash) : string
     {
         $this->stringToHash = $stringToHash;
         $chars = str_split($this->stringToHash);
@@ -84,7 +83,7 @@ class Hash{
      * @param $str
      * @return bool
      */
-    public function verifyHash(string $hash, string $str) : bool
+    public function verifyHash($hash, $str) : bool
     {
         $obj = new Hash($this->app);
         return password_verify($obj->getStringSalted($str), $hash);
@@ -94,16 +93,16 @@ class Hash{
      * @param string $stringToHash
      * @return string
      */
-    public function getHash(string $stringToHash) : string
+    public function getHash($stringToHash) : string
     {
         return password_hash($this->selStep2($stringToHash), PASSWORD_DEFAULT);
     }
 
     /**
-     * @param string $stringToHash
+     * @param string $stringToSel
      * @return string
      */
-    public function getStringSalted(string $stringToSel) : string
+    public function getStringSalted($stringToSel) : string
     {
         return $this->selStep2($stringToSel);
     }

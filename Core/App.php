@@ -14,10 +14,17 @@ class App
      * @var string
      */
     private $url_protocol = 'http://';
+
     /**
      * @var string
      */
     private $url_domain = 'localhost';
+
+    /**
+     * @var string
+     */
+    private $url_port = '80';
+
     /**
      * @var string
      */
@@ -66,8 +73,23 @@ class App
      */
     public function url($path)
     {
-        return $this->url_protocol . $this->url_domain . $this->url_path . $path;
+        if($this->url_port == '80' && $this->url_protocol == 'http://'){
+            return $this->url_protocol . $this->url_domain . $this->url_path . $path;
+        }
+
+        if($this->url_port == '443' && $this->url_protocol == 'https://'){
+            return $this->url_protocol . $this->url_domain . $this->url_path . $path;
+        }
+
+        return $this->url_protocol . $this->url_domain . ':' . $this->url_port . $path;
     }
 
+    public function getConfig($key)
+    {
+        if(!isset($this->$key)){
+            return null;
+        }
+        return $this->$key;
+    }
 
 }

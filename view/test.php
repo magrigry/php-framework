@@ -1,2 +1,2 @@
-<p>Afficher chemin vers une route: <?= $router->showPath('test', ['test' => 'ohoho']) ?></p>
-<p>Paramètre dans l'url: <?= $request->get('test'); ?></p>
+<p>Afficher chemin vers une route: <?= $route->showPath('test', ['test' => 'ohoho']) ?></p>
+<p>Afficher paramètre de la route: <?= $route->getParameter('test') ?></p>

@@ -7,9 +7,9 @@
 
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
-    <link href="<?= $this->app->url('/css/bootstrap.css') ?>" rel="stylesheet">
-    <link href="<?= $this->app->url('/css/mdb.css') ?>" rel="stylesheet">
-    <link href="<?= $this->app->url('/css/style.css') ?>" rel="stylesheet">
+    <link href="<?= $this->app->url('/public/framework/css/bootstrap.css') ?>" rel="stylesheet">
+    <link href="<?= $this->app->url('/public/framework/css/mdb.css') ?>" rel="stylesheet">
+    <link href="<?= $this->app->url('/public/framework/css/style.css') ?>" rel="stylesheet">
 </head>
 
 <body>
@@ -29,10 +29,10 @@
 <?= $content ?>
 
 
-<script type="text/javascript" src="<?= $this->app->url('/js/jquery-3.3.1.min.js') ?>"></script>
-<script type="text/javascript" src="<?= $this->app->url('/js/popper.min.js') ?>"></script>
-<script type="text/javascript" src="<?= $this->app->url('/js/bootstrap.js') ?>"></script>
-<script type="text/javascript" src="<?= $this->app->url('/js/mdb.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->app->url('/public/framework/js/jquery-3.3.1.min.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->app->url('/public/framework/js/popper.min.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->app->url('/public/framework/js/bootstrap.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->app->url('/public/framework/js/mdb.js') ?>"></script>
 
 </body>
 

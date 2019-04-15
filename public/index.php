@@ -1,7 +1,7 @@
 <?php
 
 /************************************************/
-/*                       App                    */
+/*                       init                    */
 /************************************************/
 session_start();
 chdir('..');
@@ -27,7 +27,38 @@ $router = $container->get(\Core\Router\Router::class);
 require_once (ROOT.DS.'route.php');
 $route = $router->match();
 
+/************************************************/
+/*                  MiddleWare                  */
+/************************************************/
 
+require_once (ROOT.DS.'middleware.php');
+if(!is_null($route->getMiddleWares())){
+    foreach($route->getMiddleWares() as $key => $value){
+        $call = explode('@', $value);
+        $className = 'App\\Middleware\\' . $call[0];
+        $methodName = $call[1];
+        $container->call([$className, $methodName]);
+    }
+}
 
-echo call_user_func_array($route->getCallable(), array($container));
+/************************************************/
+/*                   Execution                  */
+/************************************************/
+$exec = $container->call($route->getCallable());
+if(is_callable($exec)){
+    $body = $container->call($exec);
+}
+else{
+    $body = $exec;
+}
 
+/************************************************/
+/*                   Response                   */
+/************************************************/
+if(is_string($body)){
+    $psrResponse = $container->get(\GuzzleHttp\Psr7\Response::class);
+    $psrResponse->getBody()->write($body);
+    \Http\Response\send($psrResponse);
+}elseif($body instanceof  \GuzzleHttp\Psr7\Response){
+    \Http\Response\send($body);
+}
