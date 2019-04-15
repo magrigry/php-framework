@@ -1,7 +1,8 @@
 {
     "name": "quentin/framework",
     "require": {
-        "php-di/php-di": "^6.0"
+        "php-di/php-di": "^6.0",
+        "guzzlehttp/psr7": "^1.5"
     },
 	"autoload": {
 		"psr-4": {

@@ -14,6 +14,8 @@ return [
     ->parameter('url', isset($_GET['url']) ? htmlentities($_GET['url']) : '/'),
 
     \Core\App::class => \DI\Factory(function($config){return new \Core\App($config); })
-    ->parameter('config', \DI\get('config'))
+    ->parameter('config', \DI\get('config')),
+
+    \GuzzleHttp\Psr7\ServerRequest::class => \DI\Factory(function(){return \GuzzleHttp\Psr7\ServerRequest::fromGlobals(); })
 
 ];

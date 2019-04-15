@@ -2,6 +2,8 @@
 
 namespace Core\Router;
 
+use GuzzleHttp\Psr7\ServerRequest;
+
 /**
  * Class Router
  * @package Core
@@ -58,12 +60,13 @@ class Router
     /**
      * Router constructor.
      * @param $request
+     * @param $app
      */
-    public function __construct(\Core\Request $request, \Core\App $app)
+    public function __construct(ServerRequest $request, \Core\App $app)
     {
         $this->request = $request;
         $this->app = $app;
-        $this->url = $request->getUrl();
+        $this->url = $request->getUri()->getPath();
     }
 
     /**
@@ -122,21 +125,9 @@ class Router
 
         if ($returnCall) {
 
-            foreach ($_GET as $key => $value) {
-                $get[$key] = htmlentities($value);
-            }
 
             if (isset($get)) {
                 $this->parameters = $get;
-                $this->request->setGet($get);
-            }
-
-            foreach ($_POST as $key => $value) {
-                $post[$key] = htmlentities($value);
-            }
-
-            if (isset($post)) {
-                $this->request->setPost($post);
             }
 
             if (is_string($call)) {
