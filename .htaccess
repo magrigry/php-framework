@@ -1,4 +1,4 @@
 RewriteEngine on
 
 
-RewriteRule ^(.*)$ public/index.php?url=$1 [QSA,L]
+RewriteRule ^(.*)$ /framework/public/ [R=301,L]

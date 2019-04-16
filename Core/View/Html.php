@@ -2,6 +2,8 @@
 
 namespace Core\View;
 
+use Core\App;
+
 /**
  * Class Html
  * @package Core\View
@@ -9,116 +11,40 @@ namespace Core\View;
 class Html
 {
 
-    /**
-     * @var
-     */
-    private $title;
+    private $_Html_template = ROOT . DS . 'view' . DS . "template.php";
 
-    /**
-     * @var array
-     */
-    public $data = array();
+    private $app;
 
-    /**
-     * @var array
-     */
-    private $errors = array();
-
-    /**
-     * @var
-     */
-    private $pageName;
-
-     /**
-     * @var
-     */
-    private $app;   
-
-    public function __construct(\Core\App $app)
+    public function __construct(App $app)
     {
         $this->app = $app;
     }
 
-    /**
-     * @param $str
-     */
-    public function setTitle($str)
+    public function render($_Html_file, $vars = array(), $_Html_template = true)
     {
-        $this->title = $str;
-    }
 
-    /**
-     * @param $str
-     */
-    public function addError($str)
-    {
-        $this->errors[] = $str;
-    }
-
-    /**
-     * @param $pageName
-     */
-    public function setPageName($pageName)
-    {
-        $this->pageName = $pageName;
-    }
-
-    /**
-     * @param $var
-     * @param $default
-     * @return mixed
-     */
-    public function getAttr($var, $default)
-    {
-        return (isset($this->$var)) && ($this->$var != null) ? $this->$var : $default;
-    }
-
-    /**
-     * @param $pageToTest
-     * @param $str
-     */
-    public function ifCurrentPage($pageToTest, $str)
-    {
-        if ($pageToTest === $this->pageName) {
-            echo $str;
-        }
-    }
-
-    /**
-     * @param $file
-     * @param array $vars
-     * @param bool $template
-     * @return false|string
-     */
-    public function render($file, $vars = array(), $template = true)
-    {
 
         foreach ($vars as $key => $var) {
             $$key = $var;
         }
 
-        $this->data = (isset($var) && is_array($var)) ? $var : array();
+        if($_Html_template == true){
+            ob_start();
+            require ROOT . DS . 'view' . DS . $_Html_file;
+            ob_end_clean();
 
-        $file = str_replace('/', DS, $file);
-        $file = str_replace('\\', DS, $file);
+            ob_start();
+            require $this->_Html_template;
+            $_Html_fileContent = ob_get_clean();
+
+            return $_Html_fileContent;
+        }
 
         ob_start();
-
-        require_once(ROOT . DS . 'view' . DS . $file);
-
-        $content = ob_get_contents();
-
+        require ROOT . DS . 'view' . DS . $_Html_file;
         ob_end_clean();
 
-        if ($template == true) {
-            ob_start();
-            require_once(ROOT . DS . 'view/template.php');
-            $content = ob_get_contents();
-            ob_end_clean();
-            return (string)$content;
-        } else {
-            return $content;
-        }
+        return $_content_body;
 
     }
 

@@ -23,7 +23,11 @@ try{
 /************************************************/
 /*                    ROUTER                    */
 /************************************************/
-$router = $container->get(\Core\Router\Router::class);
+try{
+    $router = $container->get(\Core\Router\Router::class);
+}catch(Exception $e){
+    echo 'index.php' . __LINE__ . ' ' . $e;
+}
 require_once (ROOT.DS.'route.php');
 $route = $router->match();
 
@@ -56,7 +60,11 @@ else{
 /*                   Response                   */
 /************************************************/
 if(is_string($body)){
-    $psrResponse = $container->get(\GuzzleHttp\Psr7\Response::class);
+    try{
+        $psrResponse = $container->get(\GuzzleHttp\Psr7\Response::class);
+    }catch(Exception $e){
+        echo 'index.php' . __LINE__ . ' ' . $e;
+    }
     $psrResponse->getBody()->write($body);
     \Http\Response\send($psrResponse);
 }elseif($body instanceof  \GuzzleHttp\Psr7\Response){

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title><?= $this->getAttr('title', 'Mon titre par défaut') ?></title>
+    <title><?= (isset($_content_title)) ? $_content_title : 'Mon titre' ?></title>
 
-    <meta name="Description" content="<?= $this->getAttr('description', 'Ma description par défaut') ?>">
+    <meta name="Description" content="<?= (isset($_content_description)) ? $_content_description : 'Ma description' ?>">
 
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
@@ -14,20 +14,9 @@
 
 <body>
 
-<?php
-    $this->ifCurrentPage('home', '<h1>Welcome on Home Page</h1>');
-?>
+<?= (isset($_content_errors)) ? $_content_errors : '' ?>
 
-<div class="container">
-    <?php foreach ($this->errors as $error): ?>
-        <div class="alert alert-danger m-5" role="alert">
-            <?= $error ?>
-        </div>
-    <?php endforeach; ?>
-</div>
-
-<?= $content ?>
-
+<?= (isset($_content_body)) ? $_content_body : '' ?>
 
 <script type="text/javascript" src="<?= $this->app->url('/public/framework/js/jquery-3.3.1.min.js') ?>"></script>
 <script type="text/javascript" src="<?= $this->app->url('/public/framework/js/popper.min.js') ?>"></script>

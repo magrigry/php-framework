@@ -16,12 +16,10 @@ class TestController{
         $hash->getHash('str');
         $hash->verifyHash('$2y$10$OKFK0TKqLVCSd4IgZKNz8.h20xfW3eYIV5hDjsDB/00IrW6d/OfdK', 'str');
 
+        $errors['testError'] = true;
+
         /* RETOURNER vue */
-        $html->setPageName('test');
-        $html->setTitle('Test page');
-        $html->addError("Page inconnue");
-        $html->addError("Vous n'avez pas la permission");
-        return $html->render('test.php', compact('route'));
+        return $html->render('test.php', compact('route', 'errors'));
 
     }
 

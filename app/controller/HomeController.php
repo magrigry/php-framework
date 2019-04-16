@@ -22,8 +22,6 @@ class HomeController
      */
     public function index(Html $html)
     {
-        $html->setPageName('home');
-        $html->setTitle('Home page');
         return $html->render('home.php');
     }
 
